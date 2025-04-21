@@ -275,6 +275,34 @@ class TestMultiDict(BaseDictTests):
         d = self._get_instance(password="pwd")
         assert repr(d) == "MultiDict([('password', '******')])"
 
+    def test_from_multipart(self):
+        from io import BytesIO
+
+        from multipart import MultipartParser
+
+        data = (
+            b"--foobar\r\n"
+            b'Content-Disposition: form-data; name="foo"\r\n'
+            b"\r\n"
+            b"bar\r\n"
+            b"--foobar\r\n"
+            b'Content-Disposition: form-data; name="fizz"; filename="fizz.txt"\r\n'
+            b"Content-type: application/octet-stream\r\n"
+            b"\r\n"
+            b"buzz\r\n"
+            b"\r\n"
+            b"--foobar--\r\n"
+        )
+        body = BytesIO(data)
+        body.seek(0)
+        mp = MultipartParser(body, b"foobar")
+        inst = self.klass.from_multipart(mp)
+        assert inst["foo"] == "bar"
+        fizz = inst["fizz"]
+        assert isinstance(fizz, multidict.MultiDictFile)
+        assert fizz.filename == "fizz.txt"
+        assert fizz.value == b"buzz\r\n"
+
 
 class TestNestedMultiDict(BaseDictTests):
     klass = multidict.NestedMultiDict
