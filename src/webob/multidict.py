@@ -11,7 +11,7 @@ import warnings
 
 from multipart import parse_options_header
 
-__all__ = ["MultiDict", "NestedMultiDict", "NoVars", "GetDict"]
+__all__ = ["MultiDict", "MultiDictFile", "NestedMultiDict", "NoVars", "GetDict"]
 
 
 class MultiDict(MutableMapping):
