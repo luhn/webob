@@ -73,6 +73,7 @@ class TestRequestCommon:
         }
         req = self._makeOne(environ)
         assert req.body_file is not INPUT
+        assert req.body_file.read() == body
 
     def test_body_file_getter_seekable(self):
         body = b"input"
