@@ -60,7 +60,13 @@ class MultiDict(MutableMapping):
         """
         Create a multidict from a cgi.FieldStorage instance
 
-        Legacy.
+        .. deprecated:: 2.0
+
+            This method will not function in Python 3.13 or greater because the
+            `cgi` module has been removed.  Consider using the `multipart`_
+            library with :meth:`from_multipart` instead.
+
+        .. _multipart: https://pypi.org/project/multipart/
 
         """
         obj = cls()
@@ -103,6 +109,12 @@ class MultiDict(MutableMapping):
 
     @classmethod
     def from_multipart(cls, mp):
+        """
+        Create a multidict from a `MultipartParser`_ object.
+
+        .. _MultipartParser: https://multipart.readthedocs.io/en/latest/api.html#multipart.MultipartParser
+
+        """
         obj = cls()
 
         for part in mp:
