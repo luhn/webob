@@ -56,7 +56,7 @@ class MultiDict(MutableMapping):
         return obj
 
     @classmethod
-    def from_fieldstorage(cls, fs):
+    def from_fieldstorage(cls, fs):  # pragma: no cover
         """
         Create a multidict from a cgi.FieldStorage instance
 
